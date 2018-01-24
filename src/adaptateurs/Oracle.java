@@ -12,7 +12,7 @@ public class Oracle {
         super();
     }
 
-    private void connexion() throws SQLException, ClassNotFoundException {
+    public void connexion() throws SQLException, ClassNotFoundException {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException ex) {
@@ -20,19 +20,19 @@ public class Oracle {
         }
 
         try {
-            this.conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:miage", "videlcro", "miage");
+            this.conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe", "flthiebl", "flthiebl");
 //"jdbc:oracle:thin:@172.19.255.3:1521:MIAGE"
 
         } catch (SQLException ex) {
-            System.err.println("Erreur de connexion à la base de données.");
+            System.err.println("Erreur de connexion Ã  la base de donnÃ©es.");
         }
     }
 
-    private void deconnexion() {
+    public void deconnexion() {
         try {
             this.conn.close();
         } catch (SQLException ex) {
-            System.err.println("Erreur de deconnexion à la base de données.");
+            System.err.println("Erreur de deconnexion Ã  la base de donnÃ©es.");
         }
     }
 }

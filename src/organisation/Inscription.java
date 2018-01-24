@@ -3,10 +3,13 @@ package organisation;
 public class Inscription {
     private int ID_Etudiant;
     private int ID_Cours;
-    private int annee;
+    private String annee;
     private int note;
 
-    public Inscription(int ID_Etudiant, int ID_Cours, int annee, int note) {
+    public Inscription() {
+    }
+
+    public Inscription(int ID_Etudiant, int ID_Cours, String annee, int note) {
         this.ID_Etudiant = ID_Etudiant;
         this.ID_Cours = ID_Cours;
         this.annee = annee;
@@ -29,11 +32,11 @@ public class Inscription {
         this.ID_Cours = ID_Cours;
     }
 
-    public int getAnnee() {
+    public String getAnnee() {
         return annee;
     }
 
-    public void setAnnee(int annee) {
+    public void setAnnee(String annee) {
         this.annee = annee;
     }
 

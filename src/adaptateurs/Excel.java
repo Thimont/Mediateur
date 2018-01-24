@@ -1,8 +1,12 @@
 package adaptateurs;
 
+import organisation.Cours;
 import organisation.Etudiant;
+import organisation.Inscription;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -21,9 +25,13 @@ public class Excel {
         }
 
         try {
-            this.conn = DriverManager.getConnection("jdbc:odbc:\\Z:\\ID\\TD1 - Médiateur\\Sources de données\\source1.xls", "", "");
+//            this.conn = DriverManager.getConnection("jdbc:odbc:\\D:\\source1.xls", "", "");
+
+            String myDB = "jdbc:odbc:Driver={Microsoft Excel Driver (*.xls)};DBQ=D:/source1.xls";
+            this.conn = DriverManager.getConnection(myDB);
         } catch (SQLException ex) {
-            System.err.println("Excel Erreur de connexion à la base de données.");
+            System.err.println(ex.toString());
+            System.err.println("Excel Erreur de connexion Ã  la base de donnÃ©es.");
         }
     }
 
@@ -31,33 +39,81 @@ public class Excel {
         try {
             this.conn.close();
         } catch (SQLException ex) {
-            System.err.println("Excel Erreur de deconnexion à la base de données.");
+            System.err.println("Excel Erreur de deconnexion Ã© la base de donnÃ©es.");
         }
     }
 
-    //méthode pour récupérer tous les étudiants dont le pays de provenance n'est pas la france
-    public List<Etudiant> getEtudiantNonProvenanceFrance() {
-        List<Etudiant> etudiants = null;
+    public HashMap<String, Etudiant> getEtudiants() {
+        HashMap<String, Etudiant> etudiants = new HashMap<String, Etudiant>();
         try {
-            String sql = "select * from [2006$]";
+            String sql = "select * from ["+2006+"$]";
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(sql);
 
-            while (rs.next()) {
-                if(rs.getString("Statut")=="etudiant") {
-                    etudiants.add(new Etudiant(rs.getInt("ID"),rs.getString("Nom"), rs.getString("Prenom"),
-                            rs.getString("Statut"), rs.getString("FormationPrecedente"), "",2006, 0, ""));
+            while (rs.next() && rs.getString("Statut").equals("etudiant")) {
+                int id_etudiant = rs.getInt("ID");
+                String nom = rs.getString("Nom");
+                String prenom = rs.getString("Prenom");
+                String provenance = rs.getString("Provenance");
+                String formationPrecedente = rs.getString("FormationPrecedente");
+                String niveauInsertion = rs.getString("NiveauInsertion");
+                if(!etudiants.containsKey(Integer.toString(id_etudiant))) {
+                    etudiants.put(Integer.toString(id_etudiant), new Etudiant(id_etudiant, nom, prenom, provenance, formationPrecedente, "", 0, 0, niveauInsertion));
                 }
             }
-
         } catch (Exception e) {
             System.err.println(e);
         }
+
         return etudiants;
     }
 
     //afficher le nombre de cours par Type (CM, TD, TP)
+    public HashMap<String, Cours> getCours() {
+        HashMap<String, Cours> cours = new HashMap<String, Cours>();
+        try {
+            String sql = "select * from ["+2006+"$]";
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
 
-    //Afficher la note maximale des cours par Type(CM, TD, TP)
+            while (rs.next()) {
+                int id_cours = rs.getInt("ID_Cours");
+                String libelle_cours = rs.getString("Libelle_Cours");
+                String type_cours = rs.getString("Type_Cours");
+                String niveau_cours = rs.getString("Niveau_Cours");
+                if(!cours.containsKey(Integer.toString(id_cours))) {
+                    cours.put(Integer.toString(id_cours), new Cours(id_cours, libelle_cours, type_cours, niveau_cours, 0));
+                }
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return cours;
+    }
+
+    //rÃ©cuperer toutes les notes
+    public HashMap<String, Inscription> getNotes() {
+        HashMap<String, Inscription> inscriptions = new HashMap<String, Inscription>(); //contient toutes les notes
+        try {
+            String sql = "select * from ["+2006+"$]";
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next() && rs.getString("Statut").equals("etudiant")) {
+                int id_etudiant = rs.getInt("ID");
+                int id_cours = rs.getInt("ID_Cours");
+                String annee = rs.getString("Niveau_Cours");
+                int note = rs.getInt("Note");
+                if(!(inscriptions.containsKey(Integer.toString(id_cours)+Integer.toString(id_etudiant)+annee))) {
+                    inscriptions.put(Integer.toString(id_cours)+Integer.toString(id_etudiant)+annee, new Inscription(id_etudiant, id_cours, annee, note));
+                }
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return inscriptions;
+    }
+
+
 }
 
