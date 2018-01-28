@@ -4,8 +4,18 @@
     <data-source source="LOCAL" name="Oracle - miage@172.19.255.3" uuid="b6f4fc6c-ebf8-4601-85e6-3f942bfd0f6a">
       <driver-ref>oracle</driver-ref>
       <auto-commit>false</auto-commit>
-      <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
+      <jdbc-driver>oracle.jdbc.driver.OracleDriver</jdbc-driver>
       <jdbc-url>jdbc:oracle:thin:@//172.19.255.3:1521/miage</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="@localhost" uuid="5e50b0ff-d18b-4e12-a050-283eb9a73618">
+      <driver-ref>oracle</driver-ref>
+      <synchronize>true</synchronize>
+      <auto-commit>false</auto-commit>
+      <jdbc-driver>oracle.jdbc.driver.OracleDriver</jdbc-driver>
+      <jdbc-url>jdbc:oracle:thin:@localhost:1521:XE</jdbc-url>
+      <driver-properties>
+        <property name="v$session.program" value="DataGrip" />
+      </driver-properties>
     </data-source>
   </component>
 </project>
