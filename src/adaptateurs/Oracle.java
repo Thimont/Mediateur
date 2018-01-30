@@ -125,14 +125,14 @@ public class Oracle {
             ResultSet rs;
             String query;
 
-            stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            query = "SELECT * FROM INSCRIPTION order by NUMET, NUMCOURS, ANNEE";
+            stmt = this.conn.createStatement();
+            query = "SELECT * from INSCRIPTION";
 
             rs = stmt.executeQuery(query);
             while (rs.next()) {
                 int id_etudiant = rs.getInt("NUMET");
                 int id_cours = rs.getInt("NUMCOURS");
-                String annee = rs.getString("ANNEE");
+                String annee = Integer.toString(rs.getInt("ANNEE"));
                 int note = rs.getInt("NOTE_COURS");
                 String id_note = Integer.toString(id_cours+id_etudiant) + annee;
                 notes.put(id_note,

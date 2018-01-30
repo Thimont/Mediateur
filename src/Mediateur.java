@@ -12,6 +12,7 @@ public class Mediateur {
     private Excel excel = new Excel();
     private Oracle oracle = new Oracle();
     XML xml = new XML();
+    boolean econn, oconn, xconn = false;
 
     public Mediateur() {
     }
@@ -19,6 +20,7 @@ public class Mediateur {
     public void connexionExcel() {
         try {
             this.excel.connexion();
+            econn = true;
         } catch (Exception e) {
             System.err.println("Connexion au fichier Excel impossible");
         }
@@ -26,6 +28,7 @@ public class Mediateur {
     public void connexionOracle() {
         try {
             this.oracle.connexion();
+            oconn = true;
         } catch (Exception e) {
             System.err.println("Connexion a la base Oracle impossible");
         }
@@ -34,19 +37,25 @@ public class Mediateur {
     public void connexionXML() {
         try {
             this.xml.lire_XML("D:\\MIAGE\\ID\\TD1 - Médiateur\\Sources de données\\source3.xml");
+            xconn = true;
         } catch (Exception e) {
             System.err.println("Lecture du fichier xml impossible");
         }
     }
 
     public int getEtudiantsNonFrance() {
-        HashMap<String, Etudiant> etudiantsExcel = this.excel.getEtudiants();
+        HashMap<String, Etudiant> etudiantsExcel = new HashMap<String, Etudiant>();
         HashMap<String, Etudiant> etudiantsOracle = new HashMap<String, Etudiant>();
-
-        try {
-            etudiantsOracle = this.oracle.getEtudiants();
-        } catch (Exception e) {
-            System.err.println("Recuperation des etudiants impossible");
+        if (econn) {
+            etudiantsExcel = this.excel.getEtudiants();
+        }
+        if (oconn) {
+            etudiantsOracle = new HashMap<String, Etudiant>();
+            try {
+                etudiantsOracle = this.oracle.getEtudiants();
+            } catch (Exception e) {
+                System.err.println("Recuperation des etudiants impossible");
+            }
         }
 
         HashMap<String, Etudiant> etudiants = new HashMap<String, Etudiant>();
@@ -109,7 +118,7 @@ public class Mediateur {
 
         HashMap<String, Inscription> meilleuresnotes = new HashMap<String, Inscription>();
 
-        Inscription meilleureinscription = null;
+        Inscription meilleureinscription = new Inscription();
 
         for (Map.Entry<String, Cours> entry : cours.entrySet()) {
             int id_cours = entry.getValue().getID_Cours();
