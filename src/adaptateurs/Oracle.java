@@ -63,6 +63,7 @@ public class Oracle {
                 //TODO conversion de la date de naissance en age
                 Date date_naissance = rs.getDate("DATENAISSANCE");
                 String niveau_insertion = rs.getString("NIVEAU_INSCRIPTION");
+                String telephone =  rs.getString("TELEPHONE");
                 if (!etudiants.containsKey(Integer.toString(id_etudiant))){
                     etudiants.put(Integer.toString(id_etudiant),
                             new Etudiant(id_etudiant,
@@ -73,7 +74,7 @@ public class Oracle {
                                     pays_formation_precedente,
                                     annee_debut,
                                     0,
-                                    niveau_insertion)
+                                    niveau_insertion,date_naissance.toString(),telephone)
                     );
                 }
             }

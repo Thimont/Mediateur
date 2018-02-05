@@ -58,7 +58,7 @@ public class Excel {
                 String formationPrecedente = rs.getString("FormationPrecedente");
                 String niveauInsertion = rs.getString("NiveauInsertion");
                 if(!etudiants.containsKey(Integer.toString(id_etudiant))) {
-                    etudiants.put(Integer.toString(id_etudiant), new Etudiant(id_etudiant, nom, prenom, provenance, formationPrecedente, "", 0, 0, niveauInsertion));
+                    etudiants.put(Integer.toString(id_etudiant), new Etudiant(id_etudiant, nom, prenom, provenance, formationPrecedente, "", 0, 0, niveauInsertion,"",""));
                 }
             }
         } catch (Exception e) {

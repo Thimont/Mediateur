@@ -60,7 +60,7 @@ public class XML {
                 Element PaysFormationPrecedenteEtElement =  (Element) eElement.getElementsByTagName("Pays_formation_precedante").item(0);
                 //System.out.println("Manager ID : " + numEt.getAttribute("person"));
                 listeEtud.put(numEtElement.getTextContent(), new Etudiant(Integer.parseInt(numEtElement.getTextContent()),NomEtElement.getTextContent(),"",ProvenanceElement.getTextContent(),
-                        FormationPrecedenteEtElement.getTextContent(),PaysFormationPrecedenteEtElement.getTextContent(),Integer.parseInt(AnneeDebutEtElement.getTextContent()),0,Niveau_insertionEtElement.getTextContent()));
+                        FormationPrecedenteEtElement.getTextContent(),PaysFormationPrecedenteEtElement.getTextContent(),Integer.parseInt(AnneeDebutEtElement.getTextContent()),0,Niveau_insertionEtElement.getTextContent(), DateDeNaissanceEtElement.getTextContent(),TelephoneEtElement.getTextContent()));
             }
             return listeEtud;
         }

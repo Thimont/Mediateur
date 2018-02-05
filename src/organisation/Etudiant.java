@@ -6,13 +6,15 @@ public class Etudiant {
     private String prenom;
     private String provenance;
     private String formationPrecedente;
+    private String DateDeNaissance;
+    private String Telephone;
     private String paysFormationPrecedente;
     private int anneeDebut;
     private int age;
     private String niveauInsertion;
 
     public Etudiant(int ID_Etudiant, String nom, String prenom, String provenance, String formationPrecedente,
-                    String paysFormationPrecedente, int anneeDebut, int age, String niveauInsertion) {
+                    String paysFormationPrecedente, int anneeDebut, int age, String niveauInsertion,String dateDeNaissance, String telephone) {
         this.ID_Etudiant = ID_Etudiant;
         this.nom = nom;
         this.prenom = prenom;
@@ -22,6 +24,8 @@ public class Etudiant {
         this.anneeDebut = anneeDebut;
         this.age = age;
         this.niveauInsertion = niveauInsertion;
+        this.DateDeNaissance = dateDeNaissance;
+        this.Telephone = telephone;
     }
 
     public int getID_Etudiant() {
@@ -94,5 +98,21 @@ public class Etudiant {
 
     public void setNiveauInsertion(String niveauInsertion) {
         this.niveauInsertion = niveauInsertion;
+    }
+
+    public String getDateDeNaissance() {
+        return DateDeNaissance;
+    }
+
+    public void setDateDeNaissance(String dateDeNaissance) {
+        DateDeNaissance = dateDeNaissance;
+    }
+
+    public String getTelephone() {
+        return Telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        Telephone = telephone;
     }
 }
