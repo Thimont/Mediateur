@@ -34,18 +34,11 @@ public class Mediateur {
         }
     }
 
-    public void connexionXML() {
-        try {
-            this.xml.lire_XML("D:\\MIAGE\\ID\\TD1 - Médiateur\\Sources de données\\source3.xml");
-            xconn = true;
-        } catch (Exception e) {
-            System.err.println("Lecture du fichier xml impossible");
-        }
-    }
-
     public int getEtudiantsNonFrance() {
         HashMap<String, Etudiant> etudiantsExcel = new HashMap<String, Etudiant>();
         HashMap<String, Etudiant> etudiantsOracle = new HashMap<String, Etudiant>();
+        HashMap<String, Etudiant> etudiantsXML = new HashMap<>();
+        etudiantsXML = this.xml.getEtudiants();
         if (econn) {
             etudiantsExcel = this.excel.getEtudiants();
         }
@@ -60,6 +53,7 @@ public class Mediateur {
 
         HashMap<String, Etudiant> etudiants = new HashMap<String, Etudiant>();
 
+        etudiants.putAll(etudiantsXML);
         etudiants.putAll(etudiantsExcel);
         etudiants.putAll(etudiantsOracle);
 
@@ -75,12 +69,16 @@ public class Mediateur {
     }
 
     public int[] getNbCoursByType() {
+        HashMap<String, Cours> coursXML = this.xml.getCours();
         HashMap<String, Cours> coursExcel = this.excel.getCours();
         HashMap<String, Cours> coursOracle = this.oracle.getCours();
         HashMap<String, Cours> cours = new HashMap<String, Cours>();
 
         cours.putAll(coursExcel);
+
         cours.putAll(coursOracle);
+
+        cours.putAll(coursXML);
 
         int nb_cm = 0;
         int nb_td = 0;
@@ -88,9 +86,9 @@ public class Mediateur {
         //recuperation des cours excel
         for(Map.Entry<String, Cours> entry : cours.entrySet()) {
             String type = entry.getValue().getType();
-            if (type.equals("CM"))
+            if (type.equals("CM") || type.equals("Cours Magistral"))
                 nb_cm++;
-            else if (type.equals("TD"))
+            else if (type.equals("TD") || type.equals("Travaux diriges"))
                 nb_td++;
             else if (type.equals("TP"))
                 nb_tp++;
@@ -103,6 +101,8 @@ public class Mediateur {
     }
 
     public HashMap<String, Inscription> getMeilleureNoteCoursParType() {
+        HashMap<String, Inscription> inscriptionsXML = this.xml.getInscriptions();
+        HashMap<String, Cours> coursXML = this.xml.getCours();
         HashMap<String, Inscription> inscriptionsExcel = this.excel.getNotes();
         HashMap<String, Cours> coursExcel = this.excel.getCours();
         HashMap<String, Inscription> inscriptionsOracle = this.oracle.getNotes();
@@ -111,8 +111,10 @@ public class Mediateur {
         HashMap<String, Inscription> inscriptions = new HashMap<String, Inscription>();
         HashMap<String, Cours> cours = new HashMap<String, Cours>();
 
+        inscriptions.putAll(inscriptionsXML);
         inscriptions.putAll(inscriptionsExcel);
         inscriptions.putAll(inscriptionsOracle);
+        cours.putAll(coursXML);
         cours.putAll(coursExcel);
         cours.putAll(coursOracle);
 

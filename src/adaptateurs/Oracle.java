@@ -63,17 +63,19 @@ public class Oracle {
                 //TODO conversion de la date de naissance en age
                 Date date_naissance = rs.getDate("DATENAISSANCE");
                 String niveau_insertion = rs.getString("NIVEAU_INSCRIPTION");
-                etudiants.put(Integer.toString(id_etudiant),
-                        new Etudiant(id_etudiant,
-                                nom,
-                                prenom,
-                                provenance,
-                                formation_precedente,
-                                pays_formation_precedente,
-                                annee_debut,
-                                0,
-                                niveau_insertion)
-                );
+                if (!etudiants.containsKey(Integer.toString(id_etudiant))){
+                    etudiants.put(Integer.toString(id_etudiant),
+                            new Etudiant(id_etudiant,
+                                    nom,
+                                    prenom,
+                                    provenance,
+                                    formation_precedente,
+                                    pays_formation_precedente,
+                                    annee_debut,
+                                    0,
+                                    niveau_insertion)
+                    );
+                }
             }
             return etudiants;
         } catch (SQLException e) {
@@ -85,7 +87,6 @@ public class Oracle {
 
     public HashMap<String, Cours> getCours() {
         HashMap<String, Cours> cours = new HashMap<String, Cours>();
-
         try {
             Statement stmt;
             ResultSet rs;
@@ -101,13 +102,15 @@ public class Oracle {
                 String type = rs.getString("TYPE");
                 String niveau = rs.getString("NIVEAU");
                 int heures = 0;
-                cours.put(Integer.toString(id_cours),
-                        new Cours(id_cours,
-                                libelle,
-                                type,
-                                niveau,
-                                0)
-                );
+                if(!cours.containsKey(Integer.toString(id_cours))) {
+                    cours.put(Integer.toString(id_cours),
+                            new Cours(id_cours,
+                                    libelle,
+                                    type,
+                                    niveau,
+                                    heures)
+                    );
+                }
             }
             return cours;
         } catch (SQLException e) {
@@ -146,7 +149,6 @@ public class Oracle {
         } catch (SQLException e) {
             System.err.println("Erreur de requete");
         }
-
         return notes;
     }
 }
